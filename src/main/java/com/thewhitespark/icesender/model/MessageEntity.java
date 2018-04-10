@@ -10,13 +10,18 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
-@Table(name = "message", schema = "ice_sender", catalog = "")
+@Table(name = "message", schema = "ice_sender")
 public class MessageEntity implements Serializable {
 
     @Id
     @NotNull
     @Column(name = "id_attachment")
     private int idMessage;
+
+    @NotNull
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_user")
+    private UserEntity user;
 
     @NotNull
     @Column(name = "title")
@@ -29,6 +34,11 @@ public class MessageEntity implements Serializable {
     @Column(name = "color")
     private String color;
 
+    @NotNull
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_message_type")
+    private MessageTypeEntity messageType;
+
     @Column(name = "message_title")
     private String messageTitle;
 
@@ -39,9 +49,11 @@ public class MessageEntity implements Serializable {
     @Column(nullable = false, name="send_date")
     private Date sendDate;
 
+    @NotNull
     @Column(name = "send_email_after", columnDefinition="tinyint(1) default 1")
     private byte sendEmailAfter;
 
+    @NotNull
     @Column(name = "send_notification_after", columnDefinition="tinyint(1) default 1")
     private byte sendNotificationAfter;
 
@@ -53,12 +65,20 @@ public class MessageEntity implements Serializable {
         this.idMessage = idMessage;
     }
 
-    public String getTitle() {
-        return title;
+    public int getUser() {
+        return idMessage;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setUser(int idMessage) {
+        this.idMessage = idMessage;
+    }
+
+    public UserEntity getTitle() {
+        return user;
+    }
+
+    public void setTitle(UserEntity user) {
+        this.user = user;
     }
 
     public String getDescription() {
@@ -75,6 +95,14 @@ public class MessageEntity implements Serializable {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public MessageTypeEntity getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(MessageTypeEntity messageType) {
+        this.messageType = messageType;
     }
 
     public String getMessageTitle() {
@@ -132,9 +160,7 @@ public class MessageEntity implements Serializable {
         if (color != null ? !color.equals(that.color) : that.color != null) return false;
         if (messageTitle != null ? !messageTitle.equals(that.messageTitle) : that.messageTitle != null) return false;
         if (messageBody != null ? !messageBody.equals(that.messageBody) : that.messageBody != null) return false;
-        if (sendDate != null ? !sendDate.equals(that.sendDate) : that.sendDate != null) return false;
-
-        return true;
+        return sendDate != null ? sendDate.equals(that.sendDate) : that.sendDate == null;
     }
 
     @Override

@@ -6,34 +6,33 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "message2recipient_bcc", schema = "ice_sender", catalog = "")
-@IdClass(Message2RecipientBccEntityPK.class)
+@Table(name = "message2recipient_bcc", schema = "ice_sender")
 public class Message2RecipientBccEntity  implements Serializable {
 
     @Id
-    @NotNull
-    @Column(name = "id_message")
-    private int idMessage;
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_message")
+    private MessageEntity message;
 
     @Id
-    @NotNull
-    @Column(name = "id_recipient")
-    private int idRecipient;
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_recipient")
+    private RecipientEntity recipient;
 
-    public int getIdMessage() {
-        return idMessage;
+    public MessageEntity getMessage() {
+        return message;
     }
 
-    public void setIdMessage(int idMessage) {
-        this.idMessage = idMessage;
+    public void setIdMessage(MessageEntity message) {
+        this.message = message;
     }
 
-    public int getIdRecipient() {
-        return idRecipient;
+    public RecipientEntity getIdRecipient() {
+        return recipient;
     }
 
-    public void setIdRecipient(int idRecipient) {
-        this.idRecipient = idRecipient;
+    public void setIdRecipient(RecipientEntity recipient) {
+        this.recipient = recipient;
     }
 
     @Override
@@ -43,16 +42,7 @@ public class Message2RecipientBccEntity  implements Serializable {
 
         Message2RecipientBccEntity that = (Message2RecipientBccEntity) o;
 
-        if (idMessage != that.idMessage) return false;
-        if (idRecipient != that.idRecipient) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = idMessage;
-        result = 31 * result + idRecipient;
-        return result;
+        if (message != that.message) return false;
+        return recipient == that.recipient;
     }
 }
