@@ -32,6 +32,10 @@ public class MessageTypeEntity implements Serializable {
     @Column(name = "type")
     private String type;
 
+    @NotNull
+    @OneToOne(mappedBy = "messageType")
+    private MessageEntity message;
+
     public UUID getIdMessageType() {
         return idMessageType;
     }
@@ -66,5 +70,13 @@ public class MessageTypeEntity implements Serializable {
         int result = 0;
         result = 31 * result + (type != null ? type.hashCode() : 0);
         return result;
+    }
+
+    public MessageEntity getMessage() {
+        return message;
+    }
+
+    public void setMessage(MessageEntity message) {
+        this.message = message;
     }
 }

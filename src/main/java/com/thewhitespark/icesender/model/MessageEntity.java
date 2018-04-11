@@ -35,8 +35,8 @@ public class MessageEntity implements Serializable {
     private UUID idMessage;
 
     @NotNull
-    @JsonView(MessageView.Details.class)
-    @OneToOne(fetch=FetchType.EAGER)
+    @JsonIgnore
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="id_user")
     private UserEntity user;
 
@@ -57,8 +57,7 @@ public class MessageEntity implements Serializable {
     @NotNull
     @JsonUnwrapped
     @JsonView(MessageView.Summary.class)
-    @OneToOne(fetch=FetchType.EAGER, cascade = {CascadeType.ALL})
-    @JoinColumn(name="id_message_type")
+    @OneToOne(fetch=FetchType.EAGER)
     private MessageTypeEntity messageType;
 
     @Column(name = "message_title")

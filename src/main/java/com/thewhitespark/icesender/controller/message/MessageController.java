@@ -6,7 +6,6 @@ import com.thewhitespark.icesender.model.views.MessageView;
 import com.thewhitespark.icesender.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import sun.plugin2.message.Message;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -36,17 +35,12 @@ public class MessageController {
         return messageRepository.getOne(id);
     }
 
-    // Create a new Note
-    @PostMapping("/messages")
-    public MessageEntity createNote(@Valid @RequestBody MessageEntity note) {
-        int a = 3;
-        return messageRepository.save(note);
-    }
-    // Get a Single messages
 
-    // Update a messages
 
-    // Delete a messages
+
+
+
+
 
 }
 

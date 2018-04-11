@@ -29,7 +29,6 @@ public class UserEntity implements Serializable {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     @Type(type="uuid-char")
-    @JsonView(MessageView.Details.class)
     @Column(name = "id_user")
     private UUID idUser;
 
