@@ -3,19 +3,21 @@ package com.thewhitespark.icesender.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 @Entity
+@XmlRootElement
 @Table(name = "message2recipient_bcc", schema = "ice_sender")
 public class Message2RecipientBccEntity  implements Serializable {
 
     @Id
-    @OneToOne(fetch=FetchType.LAZY)
+    @OneToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="id_message")
     private MessageEntity message;
 
     @Id
-    @OneToOne(fetch=FetchType.LAZY)
+    @OneToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="id_recipient")
     private RecipientEntity recipient;
 

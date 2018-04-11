@@ -1,21 +1,32 @@
 package com.thewhitespark.icesender.model;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.UUID;
 
 @Entity
+@XmlRootElement
 @Table(name = "notification", schema = "ice_sender")
 public class NotificationEntity implements Serializable {
 
     @Id
     @NotNull
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Type(type="uuid-char")
     @Column(name = "id_notification")
-    private int idNotification;
+    private UUID idNotification;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="id_message")
     private MessageEntity message;
 
@@ -23,15 +34,15 @@ public class NotificationEntity implements Serializable {
     @Column(name = "value")
     private int value;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="id_notification_unit")
     private NotificationUnitEntity notificationUnit;
 
-    public int getIdNotification() {
+    public UUID getIdNotification() {
         return idNotification;
     }
 
-    public void setIdNotification(int idNotification) {
+    public void setIdNotification(UUID idNotification) {
         this.idNotification = idNotification;
     }
 
@@ -72,7 +83,7 @@ public class NotificationEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = idNotification;
+        int result = 0;
         result = 31 * result + value;
         return result;
     }

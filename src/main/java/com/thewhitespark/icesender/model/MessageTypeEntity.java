@@ -1,29 +1,42 @@
 package com.thewhitespark.icesender.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.UUID;
 
 @Entity
+@XmlRootElement
 @Table(name = "message_type", schema = "ice_sender", catalog = "")
 public class MessageTypeEntity implements Serializable {
 
     @Id
     @NotNull
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Type(type="uuid-char")
     @Column(name = "id_message_type")
-    private int idMessageType;
+    private UUID idMessageType;
 
     @NotNull
     @Column(name = "type")
     private String type;
 
-    public int getIdMessageType() {
+    public UUID getIdMessageType() {
         return idMessageType;
     }
 
-    public void setIdMessageType(int idMessageType) {
+    public void setIdMessageType(UUID idMessageType) {
         this.idMessageType = idMessageType;
     }
 
@@ -50,7 +63,7 @@ public class MessageTypeEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = idMessageType;
+        int result = 0;
         result = 31 * result + (type != null ? type.hashCode() : 0);
         return result;
     }

@@ -1,29 +1,40 @@
 package com.thewhitespark.icesender.model;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.UUID;
 
 @Entity
+@XmlRootElement
 @Table(name = "notification_unit", schema = "ice_sender", catalog = "")
 public class NotificationUnitEntity implements Serializable {
 
     @Id
     @NotNull
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Type(type="uuid-char")
     @Column(name = "id_notification_unit")
-    private int idNotificationUnit;
+    private UUID idNotificationUnit;
 
     @NotNull
     @Column(name = "unit")
     private String unit;
 
-    public int getIdNotificationUnit() {
+    public UUID getIdNotificationUnit() {
         return idNotificationUnit;
     }
 
-    public void setIdNotificationUnit(int idNotificationUnit) {
+    public void setIdNotificationUnit(UUID idNotificationUnit) {
         this.idNotificationUnit = idNotificationUnit;
     }
 
@@ -50,7 +61,7 @@ public class NotificationUnitEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = idNotificationUnit;
+        int result = 0;
         result = 31 * result + (unit != null ? unit.hashCode() : 0);
         return result;
     }
